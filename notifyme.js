@@ -5,9 +5,9 @@ var sys = require('sys'),
 	fs = require('fs'),
 	i = 0,
 	bFirstTime = true,
-	iMinDelay = 1000 * 20,
+	iMinDelay = 1000 * 30,
 // iDelay = 2000;
-	iDelay = 1000 * 60 * 20;
+	iDelay = 1000 * 60 * 15;
 
 
 function readFile(sPath, fnAfter) {
