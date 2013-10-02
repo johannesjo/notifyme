@@ -5,12 +5,13 @@ var sys = require('sys'),
 	fs = require('fs'),
 	i = 0,
 	bFirstTime = true,
-		// iDelay = 2000;
+	iMinDelay = 1000 * 20,
+// iDelay = 2000;
 	iDelay = 1000 * 60 * 20;
 
 
 function readFile(sPath, fnAfter) {
-	fs.readFile(sPath, 'utf8', function(err, data) {
+	fs.readFile(sPath, 'utf8', function (err, data) {
 		if (err) {
 			console.log('Error: ' + err);
 			return;
@@ -32,7 +33,7 @@ function sendMsg(title, msg) {
 }
 
 function runAll() {
-	var t = setTimeout(function() {
+	var t = setTimeout(function () {
 
 		sendMsg(msgs[i].title, msgs[i].msg);
 		console.log(i, msgs[i].title, msgs[i].msg);
@@ -44,7 +45,7 @@ function runAll() {
 }
 
 function timeOut(msgs) {
-	var t = setTimeout(function() {
+	var t = setTimeout(function () {
 		runRnd(msgs);
 	}, iDelay);
 }
@@ -66,7 +67,11 @@ function bCheckSleep() {
 	var d = new Date();
 	var h = d.getHours();
 	if (h < 9 || h > 21) {
-		iDelay = iDelay / 1.2;
+		if(iDelay > iMinDelay){
+			iDelay = iDelay / 1.2;
+		} else {
+			iDelay = iMinDelay;
+		}
 		return true;
 	} else {
 		return false;
