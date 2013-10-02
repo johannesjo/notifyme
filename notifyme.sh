@@ -1,2 +1,2 @@
 #!/bin/bash
-exec python ~/scripts/notifyme.py 
+exec node ~/scripts/notifyme/notifyme.js
