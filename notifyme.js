@@ -21,22 +21,30 @@ function readFile(sPath, fnAfter) {
 	});
 };
 
-function sendMsg(title, msg) {
-	console.log(title, msg)
-	if (!title || title === "") {
-		title = "__";
-	} else if (!msg || msg === "") {
-		msg = "__"
+function sendMsg(title, msg, icon) {
+	console.log(title, msg, icon)
+	var sCommand = 'notify-send';
+
+	if (icon && icon !== "") {
+		sCommand += ' -i ' + icon;
 	}
-	execSync("notify-send \"" + title + "\" \"" + msg + "\"");
+	if (title && title) {
+		sCommand += ' "' + title + ' "';
+	}
+	if (msg && msg !== "") {
+		sCommand += ' "' + msg + '"';
+	}
+	console.log(sCommand);
+
+	execSync(sCommand);
 
 }
 
 function runAll() {
 	var t = setTimeout(function () {
+		var msg = msg[i];
 
-		sendMsg(msgs[i].title, msgs[i].msg);
-		console.log(i, msgs[i].title, msgs[i].msg);
+		sendMsg(msg.title, msg.msg, msg.icon);
 
 		i++;
 		if (i < msgs.length)
@@ -52,8 +60,9 @@ function timeOut(msgs) {
 
 function runRnd(msgs) {
 	var i = Math.floor((Math.random() * msgs.length) + 0);
-	sendMsg(msgs[i].title, msgs[i].msg);
-	console.log(i, msgs[i].title, msgs[i].msg);
+	var msg = msgs[i];
+	sendMsg(msg.title, msg.msg, msg.icon);
+	console.log(i, msg.title, msg.msg);
 
 	if (bCheckSleep()) {
 		// call slepp stuff
@@ -67,8 +76,11 @@ function bCheckSleep() {
 	var d = new Date();
 	var h = d.getHours();
 	if (h < 9 || h > 21) {
-		if(iDelay > iMinDelay){
-			iDelay = iDelay / 1.2;
+		if (iDelay > iMinDelay) {
+			iDelay = iDelay / 1.02;
+			if (h < 9) {
+				iDelay = iDelay / 2;
+			}
 		} else {
 			iDelay = iMinDelay;
 		}
